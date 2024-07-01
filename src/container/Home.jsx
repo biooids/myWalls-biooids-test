@@ -1,9 +1,11 @@
 import React, { useState } from "react";
+
 import { FiChevronsLeft } from "react-icons/fi";
 import { FaHome } from "react-icons/fa";
+import { ImSearch } from "react-icons/im";
 
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
+import { Link, Route, Routes } from "react-router-dom";
 import logo from "../assets/Xi-biooids-1.jpg";
 
 function Home() {
@@ -52,6 +54,39 @@ function Home() {
             </Link>
           )}
         </div>
+      </div>
+      <div className="flex flex-1 min-h-screen max-h-screen overflow-y-scroll h-full  flex-col items-start justify-start px-4 md:px-12 py-4 md:py-12">
+        <div className="w-full flex items-center justify-between gap-3 ">
+          <div className="bg-secondary w-full p-3 rounded-lg flex items-center justify-center gap-3">
+            <ImSearch className="text-2xl text-cyan-500" />
+            <input
+              type="text"
+              className="flex-1 px-4 py-1 text-xl bg-black outline-none border-none text-cyan-500 placeholder:text-cyan-900"
+              placeholder="search here..."
+            />
+          </div>
+          {!user && (
+            <motion.div
+              whileTap={{ scale: 0.9 }}
+              className="flex items-center justify-center gap-3"
+            >
+              <Link
+                to={"/home/auth"}
+                className="bg-cyan-600 px-6 py-2 rounded-md text-white text-sm cursor-pointer hover:bg-cyan-500"
+              >
+                SignUp
+              </Link>
+            </motion.div>
+          )}
+          {user && <div></div>}
+        </div>
+
+        {/* <div className="w-full ">
+          <Routes>
+            <Route path="/*" element={<Projects />} />
+            <Route path="/auth" element={<SignUp />} />
+          </Routes>
+        </div> */}
       </div>
     </>
   );
