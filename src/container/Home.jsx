@@ -7,6 +7,8 @@ import { ImSearch } from "react-icons/im";
 import { motion } from "framer-motion";
 import { Link, Route, Routes } from "react-router-dom";
 import logo from "../assets/Xi-biooids-1.jpg";
+import Projects from "./Projects";
+import SignUp from "./SignUp";
 
 function Home() {
   const [isSideMenu, setIsSideMenu] = useState(false);
@@ -35,14 +37,18 @@ function Home() {
             to={"/home"}
             className="  rounded-lg overflow-hidden w-full h-10 "
           >
-            <img src={logo} className="object-cover object-bottom" />
+            <img
+              src={logo}
+              className="object-cover object-center w-full h-full"
+            />
           </Link>
           <Link to={"/newProject"}>
-            <div className="px-6 py-3 flex items-center justify-center rounded-xl border border-cyan-100 cursor-pointer group hover:border-cyan-500">
-              <p className="text-cyan-500 group-hover:text-cyan-100 ">
-                Start Coding
-              </p>
-            </div>
+            <motion.div
+              whileTap={{ scale: 0.9 }}
+              className="flex items-center justify-center w-full py-3 rounded-lg hover:bg-cyan-600 cursor-pointer bg-cyan-500"
+            >
+              <p className="text-xl text-black">Start Coding</p>
+            </motion.div>
           </Link>
           {user && (
             <Link
@@ -81,12 +87,12 @@ function Home() {
           {user && <div></div>}
         </div>
 
-        {/* <div className="w-full ">
+        <div className="w-full ">
           <Routes>
             <Route path="/*" element={<Projects />} />
             <Route path="/auth" element={<SignUp />} />
           </Routes>
-        </div> */}
+        </div>
       </div>
     </>
   );
