@@ -1,3 +1,4 @@
+// components/UserAuthInput.js
 import React, { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { motion } from "framer-motion";
@@ -12,7 +13,7 @@ function UserAuthInput({
 }) {
   const [value, setValue] = useState("");
   const [showPass, setShowPass] = useState(false);
-  const [isEmailValid, setIsEmailValid] = useState(true); // Default to true to avoid showing error initially
+  const [isEmailValid, setIsEmailValid] = useState(true);
 
   const handleTextChange = (e) => {
     const inputValue = e.target.value;
