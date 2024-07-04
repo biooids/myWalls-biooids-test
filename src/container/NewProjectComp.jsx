@@ -8,6 +8,8 @@ import { abcdef } from "@uiw/codemirror-theme-abcdef";
 
 import { html as htmlLang } from "@codemirror/lang-html";
 import { css as cssLang } from "@codemirror/lang-css";
+import { AnimatePresence, motion } from "framer-motion";
+import { MdCheck, MdEdit } from "react-icons/md";
 
 function NewProjectComp() {
   const [sizes, setSizes] = useState([33.33, 33.33, 33.33]);
@@ -15,6 +17,8 @@ function NewProjectComp() {
   const [css, setCss] = useState("");
   const [js, setJs] = useState("");
   const [outPut, setOutPut] = useState("");
+  const [isTitle, setIsTitle] = useState(false);
+  const [title, setTitle] = useState("Untitled");
 
   const updateOutPut = () => {
     const combinedOutPut = `
@@ -27,14 +31,10 @@ function NewProjectComp() {
     <title>Document</title>
     <style>${css}</style>
   </head>
-
-    <body>
-    ${html} 
-    </body>
-
-    <script>
-    ${js}
-    </script>
+  <body>
+    ${html}
+    <script>${js}</script>
+  </body>
 </html>
     `;
     setOutPut(combinedOutPut);
@@ -57,21 +57,103 @@ function NewProjectComp() {
     updateOutPut();
   }, [html, css, js]);
 
+  // const saveProgram = ()=>{
+  //   const id = new Date()
+  //   const _doc ={
+  //     id: id,
+  //     title: title,
+  //     html: html,
+  //     css: css,
+  //     js: js,
+  //     outPut: outPut,
+
+  //     await setDoc(doc(db, "Project", id), _doc).then((res)=>{
+
+  //     }).catch((err)=> console.log(err))
+  //   }
+  // }
+
   return (
-    <div>
+    <div className="w-full">
       <style>{resizerCSS}</style>
-      <p className="p-5 border-2 border-cyan-500 text-cyan-500">
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eum officiis
-        mollitia consequuntur ratione nihil omnis voluptas deserunt! Minus,
-        voluptatum veritatis itaque quisquam ipsa recusandae, maiores quae
-        dolore illo non error.
-      </p>
+
+      <div className="flex items-center">
+        <AnimatePresence>
+          {isTitle ? (
+            <motion.input
+              key="TitleInput"
+              type="text"
+              placeholder="your title"
+              className="px-3 py-2 text-white text-lg bg-black"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+            />
+          ) : (
+            <motion.p
+              key="titleLabel"
+              className="px-3 py-2 text-lg text-cyan-500"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+            >
+              {title}
+            </motion.p>
+          )}
+        </AnimatePresence>
+        <AnimatePresence>
+          {isTitle ? (
+            <motion.div
+              key="MdCheck"
+              whileTap={{ scale: 0.9 }}
+              className="cursor-pointer"
+              onClick={() => setIsTitle(false)}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+            >
+              <MdCheck size={24} className="text-cyan-500" />
+            </motion.div>
+          ) : (
+            <motion.div
+              key="MdEdit"
+              whileTap={{ scale: 0.9 }}
+              className="cursor-pointer"
+              onClick={() => setIsTitle(true)}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+            >
+              <MdEdit size={24} className="text-cyan-500" />
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+      <div className="flex gap-2">
+        <div className="flex items-center justify-center px-3 -mt-2 gap-2 ">
+          <motion.p
+            whileTap={{ scale: 0.9 }}
+            className="text-black text-[15px] p-2 rounded-sm cursor-pointer bg-amber-500"
+          >
+            + follow
+          </motion.p>
+        </div>
+        <div className="flex items-center justify-center px-3 -mt-2 gap-2 ">
+          <motion.p
+            whileTap={{ scale: 0.9 }}
+            className="text-black text-[15px] p-2 rounded-sm cursor-pointer bg-amber-500"
+          >
+            save
+          </motion.p>
+        </div>
+      </div>
       <div className="h-[50vh] w-[95%] m-auto">
         <SplitPane
           split="vertical"
           sizes={sizes}
           onChange={setSizes}
-          resizerClassName="custom-resizer"
           style={{
             background: "#f0f0f0",
             borderLeft: "10px solid #FFBF00",
@@ -149,7 +231,10 @@ function NewProjectComp() {
           </Pane>
         </SplitPane>
       </div>
-      <div className="bg-white  m-auto">
+      <div
+        className="bg-white m-auto"
+        style={{ height: "100%", overflow: "auto" }}
+      >
         <iframe title="Result" srcDoc={outPut} className="h-full w-full" />
       </div>
     </div>
